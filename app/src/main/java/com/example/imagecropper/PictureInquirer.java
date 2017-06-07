@@ -47,6 +47,7 @@ public class PictureInquirer {
         try {
             //返回图片
             mHolder.startActivityForResult(intentPick, REQUEST_CODE_PICK_IMAGE);
+            Log.d("queryPictureFromAlbum","返回结果了");
         } catch (ActivityNotFoundException e) {
             Intent intentGetContent = new Intent(Intent.ACTION_GET_CONTENT);
             intentGetContent.setType("image/*");
@@ -54,6 +55,7 @@ public class PictureInquirer {
             try {
                 //返回图片
                 mHolder.startActivityForResult(wrapperIntent, REQUEST_CODE_PICK_IMAGE);
+                Log.d("queryPictureFromAlbum","返回结果了");
             } catch (ActivityNotFoundException e1) {
                 Toast.makeText(mHolder.getApplicationContext(), "没有找到文件浏览器或相册", Toast.LENGTH_SHORT).show();
             }
@@ -99,15 +101,17 @@ public class PictureInquirer {
     public void onActivityResult(int requestCode, int resultCode, Intent data, Callback cb) {
        //图库选择
         if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+            Log.d("onActivityResult","接收到结果了");
             if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = data.getData();
                 //imageUri.getScheme()=="file"
                 if (imageUri != null && IMAGE_FROM_FILE.equals(imageUri.getScheme())) {
-                    Log.d(TAG, "openPhotos pick image " + imageUri.getPath());
+                    Log.d(TAG, "openPhotos pick image返回图片路径： " + imageUri.getPath());
                     //返回图片的URI路径和mTag
-                    if (cb != null) cb.onPictureQueryOut(imageUri.getPath(), mTag);
+                    if (cb != null)
+                        cb.onPictureQueryOut(imageUri.getPath(), mTag);
 
-                    // //imageUri.getScheme()=="content"
+                    // imageUri.getScheme()=="content"
                 } else if (imageUri != null && IMAGE_FROM_CONTENT.equals(imageUri.getScheme())) {
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     Cursor cursor = mHolder.getContentResolver().query(imageUri, filePathColumn, null, null, null);
@@ -116,7 +120,7 @@ public class PictureInquirer {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String picturePath = cursor.getString(columnIndex);
                         cursor.close();
-                        Log.d(TAG, "openPhotos pick image " + picturePath);
+                        Log.d(TAG, "openPhotos pick image 返回图片路径：2" + picturePath);
                         //返回图片的URI路径和mTag
                         if (cb != null) cb.onPictureQueryOut(picturePath, mTag);
                     } else {
