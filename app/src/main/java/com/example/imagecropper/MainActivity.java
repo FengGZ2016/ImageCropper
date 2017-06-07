@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "requestPermissions READ_EXTERNAL_STORAGE");
                         return;
                     }
+                    //打开图库
                 }
             });
             //添加菜单项
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "requestPermissions CAMERA");
                         return;
                     }
+                    //打开相机
+
                 }
             });
             sheetDialog.create().show();
