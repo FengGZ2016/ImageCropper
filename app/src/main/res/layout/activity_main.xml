@@ -9,7 +9,7 @@
     tools:context="com.example.imagecropper.MainActivity">
 
     <ImageView
-        android:id="@+id/i_background"
+        android:id="@+id/image_background"
         android:layout_width="280dip"
         android:layout_height="150dip"
         android:layout_gravity="center"
@@ -18,7 +18,7 @@
         android:textAllCaps="false"/>
 
     <TextView
-        android:id="@+id/t_hint"
+        android:id="@+id/tex_hint"
         android:layout_width="280dip"
         android:layout_height="150dip"
         android:layout_gravity="center"
@@ -30,7 +30,7 @@
         android:textSize="24sp"/>
 
     <ImageView
-        android:id="@+id/i_avatar"
+        android:id="@+id/image_avatar"
         android:layout_width="120dip"
         android:layout_height="120dip"
         android:layout_gravity="center"
@@ -39,7 +39,7 @@
         android:textAllCaps="false"/>
 
     <ch.ielse.view.imagecropper.ImageCropper
-        android:id="@+id/v_image_cropper"
+        android:id="@+id/image_cropper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
