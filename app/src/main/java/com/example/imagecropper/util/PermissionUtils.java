@@ -20,8 +20,8 @@ import java.util.List;
  */
 
 public class PermissionUtils {
-    static int PERMISSION_CAMERA = 102;
-    static int PERMISSION_EXTERNAL_STORAGE = 103;
+    public static int PERMISSION_CAMERA = 102;
+    public static int PERMISSION_EXTERNAL_STORAGE = 103;
 
     private static final String TAG = "PermissionUtils";
 

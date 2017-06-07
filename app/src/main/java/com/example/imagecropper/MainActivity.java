@@ -1,15 +1,18 @@
 package com.example.imagecropper;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.imagecropper.dialog.SheetDialog;
+import com.example.imagecropper.util.PermissionUtils;
 
 import ch.ielse.view.imagecropper.ImageCropper;
 
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImageView_avatar;
     private ImageCropper mImageCropper;
     private String mTag;
+    private final String TAG="MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     //申请权限
+                    if (!PermissionUtils.hasPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        PermissionUtils.requestPermissions(MainActivity.this, PermissionUtils.PERMISSION_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+                        Log.d(TAG, "requestPermissions READ_EXTERNAL_STORAGE");
+                        return;
+                    }
                 }
             });
             //添加菜单项
@@ -86,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     //申请权限
+                    if (!PermissionUtils.hasPermission(MainActivity.this, Manifest.permission.CAMERA)) {
+                        PermissionUtils.requestPermissions(MainActivity.this, PermissionUtils.PERMISSION_CAMERA, Manifest.permission.CAMERA);
+                        Log.d(TAG, "requestPermissions CAMERA");
+                        return;
+                    }
                 }
             });
             sheetDialog.create().show();
