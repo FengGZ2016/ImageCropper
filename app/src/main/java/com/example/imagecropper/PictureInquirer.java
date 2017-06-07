@@ -61,6 +61,7 @@ public class PictureInquirer {
     }
 
 
+
     /**
      * 从相机中拍照
      * */
@@ -80,6 +81,59 @@ public class PictureInquirer {
     }
 
 
- 
+
+    public interface Callback {
+        /**
+         * 获得了一张新的图片
+         *
+         * @param path 新图片的路径
+         * @param tag  自设标志
+         */
+        void onPictureQueryOut(String path, String tag);
+    }
+
+
+    /**
+     * 接收结果
+     * */
+    public void onActivityResult(int requestCode, int resultCode, Intent data, Callback cb) {
+       //图库选择
+        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri imageUri = data.getData();
+                //imageUri.getScheme()=="file"
+                if (imageUri != null && IMAGE_FROM_FILE.equals(imageUri.getScheme())) {
+                    Log.d(TAG, "openPhotos pick image " + imageUri.getPath());
+                    //返回图片的URI路径和mTag
+                    if (cb != null) cb.onPictureQueryOut(imageUri.getPath(), mTag);
+
+                    // //imageUri.getScheme()=="content"
+                } else if (imageUri != null && IMAGE_FROM_CONTENT.equals(imageUri.getScheme())) {
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = mHolder.getContentResolver().query(imageUri, filePathColumn, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String picturePath = cursor.getString(columnIndex);
+                        cursor.close();
+                        Log.d(TAG, "openPhotos pick image " + picturePath);
+                        //返回图片的URI路径和mTag
+                        if (cb != null) cb.onPictureQueryOut(picturePath, mTag);
+                    } else {
+                        Log.e(TAG, "openPhotos pick image cursor null");
+                    }
+                } else {
+                    Toast.makeText(mHolder.getApplicationContext(), "图片获取失败，并没有成功拿到图片路径", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, imageUri != null ? ("openPhotos unknown uri\n" + imageUri.getPath()) : "openPhotos imageUri null");
+                }
+            }
+            //相机拍照
+        } else if (requestCode == REQUEST_CODE_CAPTURE_PICTURE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.d(TAG, "openCamera " + fCapture.getAbsolutePath());
+                if (cb != null) cb.onPictureQueryOut(fCapture.getAbsolutePath(), mTag);
+            }
+        }
+    }
 
 }
