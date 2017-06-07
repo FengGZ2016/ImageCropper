@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--android:state_pressed点击
+android:state_enabled设置是否响应事件,指所有事件-->
+    <item android:state_enabled="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="#DEDEDE"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#EFEFEF"/>
+        </shape>
+    </item>
+</selector>
+
