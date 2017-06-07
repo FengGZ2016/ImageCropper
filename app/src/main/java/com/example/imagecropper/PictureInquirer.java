@@ -3,10 +3,14 @@ package com.example.imagecropper;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * 作者：国富小哥
@@ -55,5 +59,27 @@ public class PictureInquirer {
             }
         }
     }
+
+
+    /**
+     * 从相机中拍照
+     * */
+    public void queryPictureFromCamera(String tag) {
+        mTag = tag;
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fCapture = new File(mHolder.getExternalCacheDir(), "PIC" + System.currentTimeMillis() + ".jpg");
+        try {
+            if (!fCapture.exists()) fCapture.createNewFile();
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fCapture));
+            //返回结果
+            mHolder.startActivityForResult(intent, REQUEST_CODE_CAPTURE_PICTURE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(mHolder.getApplicationContext(), "图片无法保存", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+ 
 
 }
